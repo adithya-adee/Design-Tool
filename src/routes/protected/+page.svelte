@@ -1,13 +1,18 @@
 <script lang="ts">
   import { page } from "$app/stores"
+  import { SignIn, SignOut } from "@auth/sveltekit/components"
 </script>
 
 {#if $page.data.session}
-  <h1>Protected page</h1>
-  <p>
-    This is a protected content. You can access this content because you are
-    signed in.
-  </p>
+  <span class="signedInText">
+    {$page.data.session.user?.email ?? $page.data.session.user?.name}
+  </span>
+  <SignOut>
+    <div slot="submitButton" class="buttonPrimary">Sign out</div>
+  </SignOut>
 {:else}
-  <h1>Access Denied</h1>
+  <span class="notSignedInText">You are not signed in</span>
+  <SignIn>
+    <div slot="submitButton" class="buttonPrimary">Sign in</div>
+  </SignIn>
 {/if}
