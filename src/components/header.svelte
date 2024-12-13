@@ -1,112 +1,67 @@
 <script lang="ts">
   import { page } from "$app/stores"
   import { SignIn, SignOut } from "@auth/sveltekit/components"
+  import { onMount } from "svelte"
+
+  onMount(() => {
+    if ($page.data.session) {
+      window.location.href = "/protected"
+    }
+  })
+
+  const handleRedirect = () => {
+    if ($page.data.session) {
+      window.location.href = "/protected"
+    }
+  }
 </script>
 
-<header>
-  <div class="signedInStatus">
-    <div class="nojs-show loaded">
-      <img
-        alt="User avatar"
-        src={$page.data?.session?.user?.image ??
-          `https://api.dicebear.com/9.x/thumbs/svg?seed=${Math.floor(Math.random() * 100000) + 1}&randomizeIds=true`}
-        class="avatar"
-      />
-      {#if $page.data.session}
-        <span class="signedInText">
-          {$page.data.session.user?.email ?? $page.data.session.user?.name}
-        </span>
-        <SignOut>
-          <div slot="submitButton" class="buttonPrimary">Sign out</div>
-        </SignOut>
-      {:else}
-        <span class="notSignedInText">You are not signed in</span>
-        <SignIn>
-          <div slot="submitButton" class="buttonPrimary">Sign in</div>
-        </SignIn>
-      {/if}
-    </div>
-  </div>
-  <nav>
-    <ul class="navItems">
-      <li class="navItem"><a href="/">Home</a></li>
-      <li class="navItem"><a href="/protected">Protected</a></li>
-    </ul>
-  </nav>
+<header
+  class="flex justify-between items-center px-6 py-4 bg-black text-white w-full"
+>
+  <h1 class="text-2xl font-bold">DesignTool</h1>
+  {#if $page.data.session}
+    <SignOut>
+      <button
+        slot="submitButton"
+        class="px-4 py-2 bg-white text-black font-semibold rounded-md border border-black hover:bg-gray-700 hover:text-white transition"
+      >
+        Sign Out
+      </button>
+    </SignOut>
+  {:else}
+    <SignIn>
+      <button
+        slot="submitButton"
+        class="px-4 py-2 bg-white text-black font-semibold rounded-md border border-black hover:bg-gray-700 hover:text-white transition"
+      >
+        Sign In
+      </button>
+    </SignIn>
+  {/if}
 </header>
 
-<style>
-  .nojs-show {
-    opacity: 1;
-    top: 0;
-  }
-  .signedInStatus {
-    display: block;
-    min-height: 4rem;
-  }
-  .loaded {
-    position: relative;
-    top: 0;
-    opacity: 1;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    border-radius: 0 0 0.6rem 0.6rem;
-    padding: 0.6rem 1rem;
-    margin: 0;
-    background-color: rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease-in;
-  }
-  .signedInText,
-  .notSignedInText {
-    justify-content: end;
-    padding-left: 1rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inherit;
-    line-height: 1.3rem;
-    flex: 1;
-  }
-  .signedInText {
-    padding-top: 0rem;
-    left: 4.6rem;
-  }
-  .avatar {
-    border-radius: 2rem;
-    float: left;
-    height: 2.8rem;
-    width: 2.8rem;
-    background-color: white;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  .buttonPrimary {
-    font-weight: 500;
-    border-radius: 0.3rem;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1.4rem;
-    position: relative;
-    justify-self: end;
-    background-color: #346df1;
-    color: #fff;
-    text-decoration: none;
-    padding: 0.7rem 1.4rem;
-  }
-  .buttonPrimary:hover {
-    box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.2);
-  }
-  .navItems {
-    margin-bottom: 2rem;
-    padding: 0;
-    list-style: none;
-  }
-  .navItem {
-    display: inline-block;
-    margin-right: 1rem;
-  }
-  :global(form button) {
-    border: none !important;
-  }
-</style>
+<main
+  class="flex flex-col justify-center items-center h-screen bg-gray-50 text-center w-full"
+>
+  <h2 class="text-xl font-semibold mb-6">
+    To get started with DesignTool, please Sign In
+  </h2>
+  {#if $page.data.session}
+    <button
+      on:click={handleRedirect}
+      class="px-6 py-3 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition"
+    >
+      Get Started
+    </button>
+  {:else}
+    <SignIn>
+      <button
+        slot="submitButton"
+        class="px-6 py-3 bg-gray-100 text-black font-semibold rounded-md hover:bg-gray-800 hover:text-white transition shadow-md"
+      >
+        Sign In
+      </button>
+    </SignIn>
+  {/if}
+</main>

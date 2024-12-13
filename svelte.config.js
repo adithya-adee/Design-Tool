@@ -15,6 +15,7 @@ const config = {
       $routes: "src/routes",
     },
   },
+  preprocess : vitePreprocess()
 }
 
 export default config

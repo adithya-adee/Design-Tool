@@ -1,15 +1,13 @@
 <script lang="ts">
-  import Header from "$components/header.svelte"
-  import Footer from "$components/footer.svelte"
+  import "../app.css"
 </script>
 
-<div class="container">
-  <Header />
+<div class="flex">
   <slot />
-  <Footer />
 </div>
 
 <style>
+  /* Global Styles for Body */
   :global(body) {
     font-family:
       ui-sans-serif,
@@ -26,22 +24,28 @@
       "Segoe UI Emoji",
       "Segoe UI Symbol",
       "Noto Color Emoji";
-    padding: 0 1rem 0rem 1rem;
-    max-width: 768px;
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
     background: #fff;
     color: #333;
+    min-height: 100dvh;
+    width: 100%;
   }
+
+  /* Typography and Spacing */
   :global(li),
   :global(p) {
     line-height: 1.5rem;
   }
+
   :global(a) {
     font-weight: 500;
   }
+
   :global(hr) {
     border: 1px solid #ddd;
   }
+
   :global(iframe) {
     background: #ccc;
     border: 1px solid #ccc;
@@ -49,12 +53,5 @@
     width: 100%;
     border-radius: 0.5rem;
     filter: invert(1);
-  }
-  .container {
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: stretch;
   }
 </style>
